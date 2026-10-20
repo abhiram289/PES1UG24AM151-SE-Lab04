@@ -145,6 +145,9 @@ class Game:
         self.reset()
 
     def reset(self):
+        global fruit_collection_count
+        fruit_collection_count = 0
+
         self.level, self.score, self.lives, self.combo, self.state = 1, 0, 3, 0, "play"
         self.bonus_awarded = 0
         self.player = Player()
