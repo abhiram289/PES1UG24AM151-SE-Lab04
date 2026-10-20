@@ -17,7 +17,18 @@ SPAWNS = [(200, 330), (600, 330), (100, 210), (700, 210), (150, 450), (650, 450)
 
 def bubble_tint(bubble):
     """Return an (r, g, b) colour for a bubble, or None for the default."""
-    pass
+    if bubble.enemy is None:
+        return None
+
+    # Trapped enemies fade from pink to red as their bubble approaches expiration.
+    life_ratio = bubble.life / BUBBLE_LIFE if BUBBLE_LIFE > 0 else 0.0
+    life_ratio = max(0.0, min(1.0, life_ratio))
+    fresh_color = (255, 190, 230)
+    expiring_color = (255, 60, 60)
+    return tuple(
+        max(0, min(255, round(expiring + (fresh - expiring) * life_ratio)))
+        for fresh, expiring in zip(fresh_color, expiring_color)
+    )
 
 
 def on_fruit_collected(fruit):
